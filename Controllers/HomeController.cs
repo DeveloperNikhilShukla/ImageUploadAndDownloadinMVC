@@ -46,5 +46,23 @@ namespace ImageUploadAndDownloadInMVC.Controllers
 
             return View();
         }
+        [HttpPost]
+    public ActionResult Index(HttpPostedFileBase postedFile)
+    {
+        string path = Server.MapPath("~/Uploads/");
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+ 
+        if (postedFile != null)
+        {
+            string fileName = Path.GetFileName(postedFile.FileName);
+            postedFile.SaveAs(path + fileName);
+            ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
+        }
+ 
+        return View();
+    }
     }
 }
